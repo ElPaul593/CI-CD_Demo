@@ -198,7 +198,25 @@ Incluye pruebas a:
 ---
 
 ## ⚙️ CI/CD — Pipeline
-Este proyecto cuenta con un pipeline CI/CD compuesto por 5 etapas principales:
+Este proyecto implementa un pipeline CI/CD completo en GitLab, con el objetivo de automatizar el ciclo de vida de desarrollo:
+- Compilación del proyecto (Build)
+- Ejecución de pruebas (Test)
+- Despliegue automático en AWS EC2 (Deploy)
+
+El pipeline está disponible públicamente en el repositorio GitLab:
+
+🔗 Repositorio:
+https://gitlab.com/jjjosueva/CI-CD_Demo
+
+🔗 Pipelines ejecutados:
+https://gitlab.com/jjjosueva/CI-CD_Demo/-/pipelines
+
+--- 
+
+### ⚙️ Estructura del Pipeline
+
+En este pipeline se definen las siguientes etapas principales:
+
 ### 1️⃣ Build
 Compila el proyecto usando Maven:
 ```bash
@@ -223,7 +241,7 @@ El pipeline se conecta mediante SSH a una instancia EC2 y:
 - Detiene el servicio en ejecución (si aplica)
 - Inicia la nueva versión:
 
-Ejemplo de configuración
+Ejemplo de configuración:
 ```bash
 deploy:
   stage: deploy
@@ -235,6 +253,17 @@ deploy:
     - nohup ssh -o StrictHostKeyChecking=no -i $AWS_KEY ubuntu@3.145.138.105 "nohup java -jar /home/ubuntu/to-do-list-api/api.jar > /dev/null 2>&1 &"
   environment: production
 ```
+
+---
+
+### ✔️ Beneficios del CI/CD Implementado
+- 🔄 Eliminación de despliegues manuales
+- 👨‍💻 Código siempre probado antes de ir a producción
+- ⚡ Despliegues rápidos y confiables
+- 🔒 Uso de variables seguras en GitLab
+- ☁️ Integración total con AWS EC2
+- 📦 Artefactos de build almacenados automáticamente
+- 🚨 Notificación instantánea de errores
 
 --- 
 
