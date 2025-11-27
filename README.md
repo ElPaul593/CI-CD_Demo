@@ -256,6 +256,58 @@ deploy:
 
 ---
 
+### 📦 Archivo .gitlab-ci.yml
+```yaml
+image: maven:3.9.9-eclipse-temurin-21
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  paths:
+    - .m2/repository
+
+stages:
+  - build
+  - test
+  - packing
+
+# ======================
+# Etapa de BUILD
+# ======================
+build:
+  stage: build
+  script:
+    - mvn -B clean compile
+  artifacts:
+    paths:
+      - target/
+    expire_in: 1 week
+
+# ======================
+# Etapa de TEST
+# ======================
+test:
+  stage: test
+  script:
+    - mvn -B test
+
+# ======================
+# Etapa de PACKING (JAR)
+# ======================
+packing:
+  stage: packing
+  script:
+    - mvn -B package -DskipTests
+    - ls -l target
+  artifacts:
+    paths:
+      - target/*.jar
+    expire_in: 1 week
+```
+
+---
+
 ### ✔️ Beneficios del CI/CD Implementado
 - 🔄 Eliminación de despliegues manuales
 - 👨‍💻 Código siempre probado antes de ir a producción
